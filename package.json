@@ -1,6 +1,6 @@
 {
   "name": "sleeper_fantasy",
-  "version": "1.0.0-2",
+  "version": "1.0.0-6",
   "description": "js interface with sleeper fantasy api",
   "main": "index.js",
   "scripts": {
