@@ -1,4 +1,4 @@
-import { user } from './modules/user';
+import { user } from './lib/user';
 
 export const sleeper = class {
     constructor (user_name) {

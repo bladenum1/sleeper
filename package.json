@@ -1,12 +1,12 @@
 {
   "name": "sleeper_fantasy",
-  "version": "1.0.0-6",
+  "version": "1.0.0-7",
   "description": "js interface with sleeper fantasy api",
   "main": "index.js",
   "scripts": {
-    "prestart": "babel src --out-dir lib",
+    "prestart": "babel src --out-dir .",
     "start": "echo \"started\" && exit 0",
-    "test": "node lib/test/*-test.js"
+    "test": "node test/*-test.js"
   },
   "repository": {
     "type": "git",
