@@ -1,5 +1,3 @@
-const fs = require('fs');
-import '@babel/polyfill';
 import { sleeper } from '../index';
 
 (async () => {

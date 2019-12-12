@@ -1,6 +1,6 @@
 {
   "name": "sleeper_fantasy",
-  "version": "1.0.0-8",
+  "version": "1.0.1",
   "description": "js interface with sleeper fantasy api",
   "main": "index.js",
   "scripts": {
@@ -32,14 +32,14 @@
   },
   "homepage": "https://github.com/bladenum1/sleeper#readme",
   "dependencies": {
-    "fs": "0.0.1-security",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "@babel/polyfill": "^7.7.0"
   },
   "devDependencies": {
+    "fs": "0.0.1-security",
     "@babel/cli": "^7.7.5",
     "@babel/core": "^7.7.5",
     "@babel/node": "^7.7.4",
-    "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.6",
     "concurrently": "^5.0.1"
   }

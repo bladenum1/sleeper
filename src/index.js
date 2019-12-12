@@ -2,6 +2,7 @@ import { user } from './lib/user';
 import { league } from './lib/league';
 import { draft } from './lib/draft';
 import { player } from './lib/player';
+import '@babel/polyfill';
 
 export const sleeper = class {
     constructor (user_name) {
