@@ -1,48 +1,43 @@
 const request = require(`request`);
 
-export const user = class {
-    constructor (name) {
-        // user_name is defined
-        if(name) {
-            this._name = name;
-            this._response = this._request(`https://api.sleeper.app/v1/user/${this._name}`, `_info`);
+export const draft = class {
+    constructor (draft_id) {
+        // draft_id is defined
+        if(draft_id) {
+            this._draft_id = draft_id;
+            this._response = this._request(`https://api.sleeper.app/v1/draft/${this._draft_id}`, `_info`);
         }
-    }
-
-    // get name
-    get name () {
-        return this._name;
-    }
-
-    // set name
-    set name (name) {
-        this._name = name;
-        this._response = this._request(`https://api.sleeper.app/v1/user/${this._name}`, `_info`);
-    }
-
-    // get avatar
-    async avatar (avatar_id) {
-        // request avatar data
-        return this._request(`https://sleepercdn.com/avatars/${avatar_id}`, `_avatar`);
-    }
-
-    // get leagues
-    async leagues (year, sport) {
-        if (!sport) {
-            sport = `nfl`;
-        }
-        // request avatar data
-        return this._request(`https://api.sleeper.app/v1/user/${this._info.user_id}/leagues/${sport}/${year}`, `_leagues`);
     }
 
     // get draft
-    async draft (year, sport) {
-        if (!sport) {
-            sport = `nfl`;
+    get draft () {
+        return this._draft_id;
+    }
+
+    // set name
+    set name (draft_id) {
+        this._draft_id = draft_id;
+        this._draft_id = this._request(`https://api.sleeper.app/v1/draft/${this._draft_id}`, `_info`);
+    }
+
+    // get picks
+    async picks () {
+        if(this._picks) {
+            return this._picks;
         }
         // request matchup data
-        return this._request(`https://api.sleeper.app/v1/user/${this._info.user_id}/drafts/${sport}/${year}`, `_draft`);
+        return this._request(`https://api.sleeper.app/v1/draft/${this._draft_id}/picks`, `_picks`);
     }
+
+    // get traded picks
+    async traded_picks () {
+        if(this._traded_picks) {
+            return this._traded_picks;
+        }
+        // request matchup data
+        return this._request(`https://api.sleeper.app/v1/draft/${this._draft_id}/traded_picks`, `_traded_picks`);
+    }
+
 
     // request user api
     async _request (url, key) {

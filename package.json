@@ -1,12 +1,17 @@
 {
   "name": "sleeper_fantasy",
-  "version": "1.0.0-7",
+  "version": "1.0.0-8",
   "description": "js interface with sleeper fantasy api",
   "main": "index.js",
   "scripts": {
     "prestart": "babel src --out-dir .",
     "start": "echo \"started\" && exit 0",
-    "test": "node test/*-test.js"
+    "user_test": "node test/user-test.js",
+    "league_test": "node test/league-test.js",
+    "draft_test": "node test/draft-test.js",
+    "player_test": "node test/player-test.js",
+    "integration_test": "node test/integration-test.js",
+    "test": "concurrently 'npm run player_test' 'npm run draft_test' 'npm run league_test' 'npm run user_test' 'npm run integration_test'"
   },
   "repository": {
     "type": "git",
@@ -31,10 +36,11 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.7.5",
     "@babel/core": "^7.7.5",
     "@babel/node": "^7.7.4",
     "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.6",
-    "@babel/cli": "^7.7.5"
+    "concurrently": "^5.0.1"
   }
 }

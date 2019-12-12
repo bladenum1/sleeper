@@ -1,2 +1,3 @@
 src
-*.png
+**/*.png
+**/players.json

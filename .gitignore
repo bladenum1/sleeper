@@ -3,3 +3,4 @@ test/*
 index.js
 node_modules/*
 **/*.png
+**/players.json
