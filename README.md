@@ -1,6 +1,7 @@
 # sleeper_fantasy
-JavaScript wrapper for the sleeper fantasy football api
+JavaScript wrapper for the sleeper fantasy football API.
 
+[API's Documentation](https://github.com/facebook/react/wiki/Sites-Using-React)
 # Install
 ```npm install --save sleeper_fantasy```
 # Reference
