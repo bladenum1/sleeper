@@ -56,7 +56,7 @@ const fs = require('fs');
 ```
 ### Draft Class Examples:
 ```javascript
-import { sleeper } from '../index';
+const sleeper_package = require('sleeper_fantasy');
 
 (async () => {
     const sleeper_instance = new sleeper_package.sleeper();
@@ -71,7 +71,7 @@ import { sleeper } from '../index';
 ### Player Class Examples:
 ```javascript
 const fs = require('fs');
-import { sleeper } from '../index';
+const sleeper_package = require('sleeper_fantasy');
 
 (async () => {
     const sleeper_instance = new sleeper_package.sleeper();
