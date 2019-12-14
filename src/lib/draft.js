@@ -1,9 +1,10 @@
-const request = require(`request`);
+import { util } from './util';
 
-export const draft = class {
+export const draft = class extends util {
     constructor (draft_id) {
         // draft_id is defined
         if(draft_id) {
+            super();
             this._draft_id = draft_id;
             this._response = this._request(`https://api.sleeper.app/v1/draft/${this._draft_id}`, `_info`);
         }
@@ -36,41 +37,5 @@ export const draft = class {
         }
         // request matchup data
         return this._request(`https://api.sleeper.app/v1/draft/${this._draft_id}/traded_picks`, `_traded_picks`);
-    }
-
-
-    // request user api
-    async _request (url, key) {
-        // request user_name data
-        return new Promise ((resolve,reject) => {
-            let settings = {
-                url: url,
-                method: `GET`
-            };
-
-            // set encoding to null for images so we don`t cast it to a string
-            if (key === `_avatar`) {
-                settings.encoding = null;
-            }
-
-            request(settings, (error, response, body) => {
-                // error reject
-                if (error) {
-                    reject(error);
-                }
-                // no body reject
-                if (!body) {
-                    reject(new Error(`user not found`));
-                }
-                // found user
-                try {
-                    this[key] = JSON.parse(body);
-                    resolve(JSON.parse(body));
-                } catch {
-                    this[key] = body;
-                    resolve(body);
-                }
-            });
-        });
     }
 }

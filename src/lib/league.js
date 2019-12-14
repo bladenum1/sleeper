@@ -1,9 +1,10 @@
-const request = require(`request`);
+import { util } from './util';
 
-export const league = class {
+export const league = class extends util {
     constructor (league_id) {
         // league_id is defined
         if(league_id) {
+            super();
             this._league_id = league_id;
             this._response = this._request(`https://api.sleeper.app/v1/league/${this._league_id}`, `_info`);
         }
@@ -15,98 +16,62 @@ export const league = class {
     }
 
     // set name
-    set name (league_id) {
+    set league (league_id) {
         this._league_id = league_id;
         this._league_id = this._request(`https://api.sleeper.app/v1/user/${this._league_id}`, `_info`);
     }
 
     // get rosters
-    async rosters () {
+    async fetch_rosters () {
         if(this._rosters) {
             return this._rosters;
         }
         // request rosters data
-        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/rosters`, `_rosters`);
+        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/rosters`, `rosters`);
     }
 
     // get owners
-    async owners () {
+    async fetch_owners () {
         if(this._owners) {
             return this._owners;
         }
         // request rosters data
-        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/users`, `_owners`);
+        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/users`, `owners`);
     }
 
     // get matchups
-    async matchups (week) {
+    async fetch_matchups (week) {
         // request matchup data
-        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/matchups/${week}`, `_matchups`);
+        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/matchups/${week}`, `matchups`);
     }
 
     // get playoffs
-    async playoffs () {
+    async fetch_playoffs () {
         if(this._playoffs) {
             return this._playoffs;
         }
         // request matchup data
-        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/winners_bracket`, `_playoffs`);
+        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/winners_bracket`, `playoffs`);
     }
 
     // get transactions
-    async transactions (week) {
+    async fetch_transactions (week) {
         // request matchup data
-        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/transactions/${week}`, `_transactions`);
+        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/transactions/${week}`, `transactions`);
     }
 
     // get traded picks
-    async traded_picks () {
+    async fetch_traded_picks () {
         if(this._traded_picks) {
             return this._traded_picks;
         }
         // request matchup data
-        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/traded_picks`, `_traded_picks`);
+        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/traded_picks`, `traded_picks`);
     }
 
     // get drafts
-    async drafts () {
+    async fetch_drafts () {
         // request matchup data
-        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/drafts`, `_drafts`);
-    }
-
-
-    // request user api
-    async _request (url, key) {
-        // request user_name data
-        return new Promise ((resolve,reject) => {
-            let settings = {
-                url: url,
-                method: `GET`
-            };
-
-            // set encoding to null for images so we don`t cast it to a string
-            if (key === `_avatar`) {
-                settings.encoding = null;
-            }
-
-            request(settings, (error, response, body) => {
-                // error reject
-                if (error) {
-                    reject(error);
-                }
-                // no body reject
-                if (!body) {
-                    reject(new Error(`user not found`));
-                }
-                // found user
-                try {
-                    this[key] = JSON.parse(body);
-                    resolve(JSON.parse(body));
-                } catch {
-                    this[key] = body;
-                    resolve(body);
-                }
-            });
-        });
+        return this._request(`https://api.sleeper.app/v1/league/${this._league_id}/drafts`, `drafts`);
     }
 }

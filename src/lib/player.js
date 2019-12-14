@@ -1,17 +1,18 @@
-const request = require(`request`);
+import { util } from './util';
 
-export const player = class {
+export const player = class extends util {
     constructor () {
+        super();
     }
 
     // all players
-    async all_players () {
+    async fetch_all_players () {
         // request stats data
-        return this._request(`https://api.sleeper.app/v1/players/nfl`, `_players`);
+        return this._request(`https://api.sleeper.app/v1/players/nfl`, `all_players`, true);
     }
 
     // trending players
-    async trending (type, lookback_hours, limit, sport) {
+    async fetch_trending (type, lookback_hours, limit, sport) {
         if (!sport) {
             sport = 'nfl'
         }
@@ -26,11 +27,11 @@ export const player = class {
             url += `limit=${limit}`;
         }
         // request trending data
-        return this._request(url, `_${type}`);
+        return this._request(url, `${type}`);
     }
 
     // stats players
-    async stats (season_type, year, week, sport) {
+    async fetch_stats (season_type, year, week, sport) {
         if (!sport) {
             sport = 'nfl'
         }
@@ -39,11 +40,11 @@ export const player = class {
             url += `/${week}`;
         }
         // request stats data
-        return this._request(url, `_stats`);
+        return this._request(url, `stats`, true);
     }
 
     // projections players
-    async projections (season_type, year, week, sport) {
+    async fetch_projections (season_type, year, week, sport) {
         if (!sport) {
             sport = 'nfl'
         }
@@ -52,41 +53,6 @@ export const player = class {
             url += `/${week}`;
         }
         // request projections data
-        return this._request(url, `_projections`);
-    }
-
-    // request user api
-    async _request (url, key) {
-        // request
-        return new Promise ((resolve,reject) => {
-            let settings = {
-                url: url,
-                method: `GET`
-            };
-
-            // set encoding to null for images so we don`t cast it to a string
-            if (key === `_avatar`) {
-                settings.encoding = null;
-            }
-
-            request(settings, (error, response, body) => {
-                // error reject
-                if (error) {
-                    reject(error);
-                }
-                // no body reject
-                if (!body) {
-                    reject(new Error(`user not found`));
-                }
-                // found user
-                try {
-                    this[key] = JSON.parse(body);
-                    resolve(JSON.parse(body));
-                } catch {
-                    this[key] = body;
-                    resolve(body);
-                }
-            });
-        });
+        return this._request(url, `projections`, true);
     }
 }

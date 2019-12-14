@@ -12,19 +12,22 @@ const fs = require('fs');
 
 (async () => {
     const sleeper_instance = new sleeper_package.sleeper();
-    sleeper_instance.user = `bladeis1`;
-    await sleeper_instance.user._response;
-    console.log(sleeper_instance.user._info);
-    await sleeper_instance.user.avatar(sleeper_instance.user._info.avatar);
-    fs.writeFile(`${sleeper_instance.user.name}.png`, sleeper_instance.user._avatar, 'binary', (err) => {
+    const usernames = [`bladeis1`];
+
+    sleeper_instance.users = usernames;
+    await Promise.all(sleeper_instance.user_promises);
+    console.log(sleeper_instance.users);
+    await sleeper_instance.users[usernames[0]].fetch_avatar(sleeper_instance.users[usernames[0]].avatar);
+    console.log(sleeper_instance.users[usernames[0]].avatar_buffer);
+    fs.writeFile(`${sleeper_instance.users[usernames[0]].name}.png`, sleeper_instance.users[usernames[0]].avatar_buffer, 'binary', (err) => {
         if (err) {
             throw err
         }
     });
-    await sleeper_instance.user.leagues(2020);
-    console.log(sleeper_instance.user._leagues[0]);
-    await sleeper_instance.user.draft(2020);
-    console.log(sleeper_instance.user._draft);
+    await sleeper_instance.users[usernames[0]].fetch_leagues(2020);
+    console.log(sleeper_instance.users[usernames[0]].leagues);
+    await sleeper_instance.users[usernames[0]].fetch_drafts(2020);
+    console.log(sleeper_instance.users[usernames[0]].drafts);
 })();
 ```
 ### League Class Examples:
@@ -34,60 +37,62 @@ const fs = require('fs');
 
 (async () => {
     const sleeper_instance = new sleeper_package.sleeper();
+    const league_ids = [`507414218714144768`];
 
-    sleeper_instance.league = `507414218714144768`;
-    await sleeper_instance.league._response;
-    console.log(sleeper_instance.league._info);
-    await sleeper_instance.league.rosters();
-    console.log(sleeper_instance.league._rosters);
-    await sleeper_instance.league.owners();
-    console.log(sleeper_instance.league._owners);
-    await sleeper_instance.league.matchups(1);
-    console.log(sleeper_instance.league._matchups);
-    await sleeper_instance.league.playoffs();
-    console.log(sleeper_instance.league._playoffs);
-    await sleeper_instance.league.transactions(1);
-    console.log(sleeper_instance.league._transactions);
-    await sleeper_instance.league.traded_picks();
-    console.log(sleeper_instance.league._traded_picks);
-    await sleeper_instance.league.drafts();
-    console.log(sleeper_instance.league._drafts[0]);
+    sleeper_instance.leagues = league_ids;
+    await Promise.all(sleeper_instance.league_promises);
+    console.log(inst);
+    await sleeper_instance.leagues[league_ids[0]].fetch_rosters();
+    console.log(sleeper_instance.leagues[league_ids[0]].rosters);
+    await sleeper_instance.leagues[league_ids[0]].fetch_owners();
+    console.log(sleeper_instance.leagues[league_ids[0]].owners);
+    await sleeper_instance.leagues[league_ids[0]].fetch_matchups(1);
+    console.log(sleeper_instance.leagues[league_ids[0]].matchups);
+    await sleeper_instance.leagues[league_ids[0]].fetch_playoffs();
+    console.log(sleeper_instance.leagues[league_ids[0]].playoffs);
+    await sleeper_instance.leagues[league_ids[0]].fetch_transactions(1);
+    console.log(sleeper_instance.leagues[league_ids[0]].transactions);
+    await sleeper_instance.leagues[league_ids[0]].fetch_traded_picks();
+    console.log(sleeper_instance.leagues[league_ids[0]].traded_picks);
+    await sleeper_instance.leagues[league_ids[0]].fetch_drafts();
+    console.log(sleeper_instance.leagues[league_ids[0]].drafts[0]);
 })();
 ```
 ### Draft Class Examples:
 ```javascript
-import { sleeper } from '../index';
+const sleeper_package = require('sleeper_fantasy');
 
 (async () => {
     const sleeper_instance = new sleeper_package.sleeper();
+    const draft_ids = [`507414222434492416`];
 
-    sleeper_instance.draft = `507414222434492416`;
-    await sleeper_instance.draft._response;
-    console.log(sleeper_instance.draft._info);
-    await sleeper_instance.draft.picks();
-    console.log(sleeper_instance.draft._picks);
+    sleeper_instance.drafts = draft_ids;
+    await Promise.all(sleeper_instance.draft_promises);
+    console.log(sleeper_instance.drafts[draft_ids[0]]);
+    await sleeper_instance.drafts[draft_ids[0]].picks();
+    console.log(sleeper_instance.drafts[draft_ids[0]]._picks);
 })();
 ```
 ### Player Class Examples:
 ```javascript
 const fs = require('fs');
-import { sleeper } from '../index';
+const sleeper_package = require('sleeper_fantasy');
 
 (async () => {
     const sleeper_instance = new sleeper_package.sleeper();
-    await sleeper_instance.player.all_players();
-    fs.writeFile('players.json', JSON.stringify(sleeper_instance.player._players), 'utf8', (err) => {
+    await sleeper_instance.players.fetch_all_players();
+    fs.writeFile('players.json', JSON.stringify(sleeper_instance.players.all_players), 'utf8', (err) => {
         if (err) {
             throw err
         }
     });
-    await sleeper_instance.player.trending('add');
-    console.log(sleeper_instance.player._add);
-    await sleeper_instance.player.trending('drop');
-    console.log(sleeper_instance.player._drop);
-    await sleeper_instance.player.stats('regular', 2020, 1);
-    console.log(sleeper_instance.player._stats);
-    await sleeper_instance.player.projections('regular', 2020, 1);
-    console.log(sleeper_instance.player._projections);
+    await sleeper_instance.players.fetch_trending('add');
+    console.log(sleeper_instance.players.add);
+    await sleeper_instance.players.fetch_trending('drop');
+    console.log(sleeper_instance.players.drop);
+    await sleeper_instance.players.fetch_stats('regular', 2020, 1);
+    console.log(sleeper_instance.players.stats);
+    await sleeper_instance.players.fetch_projections('regular', 2020, 1);
+    console.log(sleeper_instance.players.projections);
 })();
 ```

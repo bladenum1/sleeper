@@ -1,15 +1,20 @@
 import { sleeper } from '../index';
 
 (async () => {
+    const users = [`bladeis1`];
     const inst = new sleeper();
 
-    inst.user = `bladeis1`;
-    await inst.user._response;
-    await inst.user.leagues(2020);
-    inst.league = inst.user._leagues[0].league_id;
-    await inst.league._response;
-    await inst.league.drafts();
-    inst.draft = inst.league._drafts[0].draft_id;
-    await inst.draft._response;
-    console.log(inst.draft._info);
+    inst.users = users;
+    await Promise.all(inst.user_promises);
+    await inst.users[users[0]].fetch_leagues(2020);
+
+    const leagues = inst.users[users[0]].leagues
+    inst.leagues = [leagues[0].league_id];
+    await Promise.all(inst.league_promises);
+    await inst.leagues[leagues[0].league_id].fetch_drafts();
+
+    const drafts = inst.leagues[leagues[0].league_id].drafts;
+    inst.drafts = [drafts[0].draft_id];
+    await Promise.all(inst.draft_promises);
+    console.log(inst.drafts);
 })();

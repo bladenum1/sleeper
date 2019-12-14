@@ -11,7 +11,8 @@
     "draft_test": "node test/draft-test.js",
     "player_test": "node test/player-test.js",
     "integration_test": "node test/integration-test.js",
-    "test": "concurrently 'npm run player_test' 'npm run draft_test' 'npm run league_test' 'npm run user_test' 'npm run integration_test'"
+    "test": "concurrently 'npm run player_test' 'npm run draft_test' 'npm run league_test' 'npm run user_test' 'npm run integration_test'",
+    "release_test": "rm -rf ../tmp && mkdir -p ../tmp/node_modules/sleeper_fantasy && cp src/test/release-test.js ../tmp && cd ../tmp && npm init -y && npm install sleeper_fantasy && cp -r ../sleeper_fantasy node_modules && node release-test.js"
   },
   "repository": {
     "type": "git",

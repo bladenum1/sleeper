@@ -1,7 +1,8 @@
-const request = require(`request`);
+import { util } from './util';
 
-export const user = class {
+export const user = class extends util {
     constructor (name) {
+        super();
         // user_name is defined
         if(name) {
             this._name = name;
@@ -21,61 +22,26 @@ export const user = class {
     }
 
     // get avatar
-    async avatar (avatar_id) {
+    async fetch_avatar (avatar_id) {
         // request avatar data
-        return this._request(`https://sleepercdn.com/avatars/${avatar_id}`, `_avatar`);
+        return this._request(`https://sleepercdn.com/avatars/${avatar_id}`, `avatar_buffer`);
     }
 
     // get leagues
-    async leagues (year, sport) {
+    async fetch_leagues (year, sport) {
         if (!sport) {
             sport = `nfl`;
         }
         // request avatar data
-        return this._request(`https://api.sleeper.app/v1/user/${this._info.user_id}/leagues/${sport}/${year}`, `_leagues`);
+        return this._request(`https://api.sleeper.app/v1/user/${this.user_id}/leagues/${sport}/${year}`, `leagues`);
     }
 
     // get draft
-    async draft (year, sport) {
+    async fetch_drafts (year, sport) {
         if (!sport) {
             sport = `nfl`;
         }
         // request matchup data
-        return this._request(`https://api.sleeper.app/v1/user/${this._info.user_id}/drafts/${sport}/${year}`, `_draft`);
-    }
-
-    // request user api
-    async _request (url, key) {
-        // request user_name data
-        return new Promise ((resolve,reject) => {
-            let settings = {
-                url: url,
-                method: `GET`
-            };
-
-            // set encoding to null for images so we don`t cast it to a string
-            if (key === `_avatar`) {
-                settings.encoding = null;
-            }
-
-            request(settings, (error, response, body) => {
-                // error reject
-                if (error) {
-                    reject(error);
-                }
-                // no body reject
-                if (!body) {
-                    reject(new Error(`user not found`));
-                }
-                // found user
-                try {
-                    this[key] = JSON.parse(body);
-                    resolve(JSON.parse(body));
-                } catch {
-                    this[key] = body;
-                    resolve(body);
-                }
-            });
-        });
+        return this._request(`https://api.sleeper.app/v1/user/${this.user_id}/drafts/${sport}/${year}`, `drafts`);
     }
 }
