@@ -75,8 +75,8 @@ const sleeper_package = require('sleeper_fantasy');
 ```
 ### Player Class Examples:
 ```javascript
-const fs = require('fs');
 const sleeper_package = require('sleeper_fantasy');
+const fs = require('fs');
 
 (async () => {
     const sleeper_instance = new sleeper_package.sleeper();
